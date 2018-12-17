@@ -1,10 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import Router from './route'
 
 import '@/assets/css/style.css'
 
-const Index = () => {
-  return <div>Hello React222131!</div>
-}
-
-ReactDOM.render(<Index />, document.getElementById('create-article-form'))
+ReactDOM.render(<Router />, document.getElementById('create-article-form'))
