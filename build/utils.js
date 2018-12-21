@@ -26,6 +26,10 @@ exports.assetsPath = function (_path) {
 exports.cssLoaders = function (options) {
   options = options || {}
 
+  const styleLoader = {
+    loader: 'style-loader'
+  }
+
   const cssLoader = {
     loader: 'css-loader',
     options: {
@@ -53,6 +57,8 @@ exports.cssLoaders = function (options) {
 
     if (options.extract) {
       loaders.unshift(MinLoader)
+    } else {
+      loaders.unshift(styleLoader)
     }
 
     if (loader) {
@@ -63,7 +69,6 @@ exports.cssLoaders = function (options) {
         })
       })
     }
-
     return loaders
   }
 
@@ -90,7 +95,6 @@ exports.styleLoaders = function (options) {
       use: loader
     })
   }
-
   return output
 }
 

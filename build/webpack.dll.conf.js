@@ -5,7 +5,7 @@ const config = require('../config')
 module.exports = {
 
   entry: {
-    vendor: ['react', 'react-dom']
+    vendor: ['react', 'react-dom', 'redux', 'react-redux', 'flyio', 'react-router-dom']
   },
   mode  : 'production',
   output: {
@@ -15,6 +15,9 @@ module.exports = {
   },
   performance: {
     hints: false
+  },
+  optimization: {
+    minimize: false
   },
   plugins: [
     new WebpackBar({

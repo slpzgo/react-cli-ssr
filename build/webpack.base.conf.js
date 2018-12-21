@@ -23,6 +23,11 @@ module.exports = {
     },
     extensions: ['.js', '.jsx', '.json', '.less', '.css']
   },
+  externals: {
+    'prop-types': 'PropTypes'
+    // 'react': 'React',
+    // 'react-dom': 'ReactDOM'
+  },
   module: {
     rules: [
       ...(config.dev.useEslint ? [utils.createLintingRule()] : []),
@@ -53,8 +58,8 @@ module.exports = {
       compiledIn: false
     }),
     new webpack.DllReferencePlugin({
-      context: __dirname,
-      manifest: resolve('dll/manifest.json')
+      manifest: resolve('dll/manifest.json'),
+      context: __dirname
     })
   ]
 }

@@ -1,0 +1,25 @@
+html {
+	font-size: 20px;
+}
+
+.header-city{
+	padding: 2rem;
+	font-size: 2rem;
+	display: block;
+	text-align: center;
+}
+
+.temp-info {
+	width: 20rem;
+	margin: 0 auto;
+	.city-weather-info {
+		.city-weather-line {
+			padding: .2rem 0;
+			line-height: 1.5rem;
+		}
+		.city-weather-temperature,.city-weather-weather {
+			float: right;
+			font-size: .7rem;
+		}
+	}
+}
