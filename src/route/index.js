@@ -1,15 +1,14 @@
 import React from 'react'
-import { HashRouter, Route, Switch } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
+import * as Action from '../store/actions'
 import Weather from '../containers/weather'
 import Todos from '../containers/todos'
 
 const BasicRoute = () => (
-  <HashRouter>
-    <Switch>
-      <Route exact path='/' component={Weather} />
-      <Route exact path='/todos' component={Todos} />
-    </Switch>
-  </HashRouter>
+  <Switch>
+    <Route exact path='/' component={Weather} fetch={Action.getWeather} />
+    <Route exact path='/todos' component={Todos} />
+  </Switch>
 )
 
 export default BasicRoute

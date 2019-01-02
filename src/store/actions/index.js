@@ -1,4 +1,4 @@
-import Fly from '@/assets/js/fly'
+import Fly from '../../assets/js/fly'
 
 let nextTodoId = 0
 export const addTodo = text => ({
@@ -25,9 +25,14 @@ export const APIS = (api, params) => {
 }
 
 export const getWeather = city => {
-  return APIS('weather', { city })
+  return dispatch => {
+    return dispatch(getPosition()).then(res => {
+      return dispatch(APIS('weather', { city: res.data.data.content.address_detail.city }))
+    })
+  }
+  // return APIS('weather', { city })
 }
 
-export const getPosition = city => {
+export const getPosition = () => {
   return APIS('position')
 }

@@ -23,11 +23,12 @@ const webpackConfig = merge(baseWebpackConfig, {
   devtool: config.build.productionSourceMap ? config.build.devtool : false,
   output: {
     path: config.build.assetsRoot,
-    filename: utils.assetsPath('js/[name].[chunkhash].js'),
+    filename: utils.assetsPath('js/[name].js'),
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
   optimization: {
     sideEffects: false,
+    namedChunks: true,
     splitChunks: {
       chunks     : 'all',
       minSize    : 30000,
@@ -54,7 +55,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       parallel: true
     }),
     new MiniCssExtractPlugin({
-      filename: utils.assetsPath('css/[name].[contenthash].css'),
+      filename: utils.assetsPath('css/[name].css'),
       allChunks: true
     }),
     // Compress extracted CSS. We are using this plugin so that possible
@@ -69,7 +70,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: config.build.index,
-      template: 'index.html',
+      template: 'index.template.html',
       inject: true,
       minify: {
         removeComments: true,

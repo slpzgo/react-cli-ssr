@@ -7,13 +7,13 @@ class Weather extends Component {
   }
 
   static propTypes = {
-    weather: PropTypes.number
+    weather: PropTypes.object
   }
 
   render () {
     let content
     const { results, city } = this.props.weather
-    if (results.length) {
+    if (results && results.length) {
       content = (<div>
         <section className='city-weather-info'>
           {

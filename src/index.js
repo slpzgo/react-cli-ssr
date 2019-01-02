@@ -1,13 +1,18 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { hydrate } from 'react-dom'
+import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import store from './store'
-import Router from './route'
+import initState from './store'
+import App from './app'
 
 import '@/assets/css/style.scss'
 
-ReactDOM.render(
+const store = initState(window._initState_)
+
+hydrate(
   <Provider store={store}>
-    <Router />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>,
   document.getElementById('app'))

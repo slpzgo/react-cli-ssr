@@ -1,10 +1,11 @@
 const initialState = {
-  results: 1,
+  results: [],
   city: ''
 }
 
 const weather = (state = initialState, action) => {
   let stateCopy = { ...state }
+  if (typeof action.data === 'string') action.data = JSON.parse(action.data)
   switch (action.type) {
     case 'GET_WEATHER_SUCCESS':
       stateCopy.results = action.data.results

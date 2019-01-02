@@ -3,9 +3,7 @@ import thunk from 'redux-thunk'
 import rootReducer from './reducers'
  
 // Note: this API requires redux@>=3.1.0
-const store = createStore(
-  rootReducer,
-  applyMiddleware(thunk)
-)
-
-export default store
+export default initialState => {
+  const store = createStore(rootReducer, initialState, applyMiddleware(thunk))
+  return store
+}

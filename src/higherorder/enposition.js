@@ -6,10 +6,8 @@ export default ComposedComponent => class Enhance extends Component {
   }
 
   componentWillMount () {
-    const { getPosition, getWeather } = this.props
-    getPosition().then(res => {
-      getWeather(res.data.data.content.address_detail.city)
-    })
+    const { getWeather, weather } = this.props
+    if (!weather.city) getWeather()
   }
 
   render () {
