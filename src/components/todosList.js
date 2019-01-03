@@ -4,14 +4,11 @@ export default class TodosList extends Component {
   constructor (props) {
     super(props)
   }
-  kk () {
-    console.log(1)
-  }
 
   render () {
     return (
       <div>
-        <button onClick={ this.kk.bind(this) }>添加todos</button>
+        <button onClick={ this.props.addTodo }>添加todos</button>
         <ul>
           {
             this.props.todos.map((v, i) => {
