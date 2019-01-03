@@ -10,13 +10,18 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 const IncludeAssetsPlugin = require('html-webpack-include-assets-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
+const isNode = process.env.NODE_ENV === 'development'
+
+// add hot-reload related code to entry chunks
+baseWebpackConfig.entry = ['./build/dev-client'].concat(baseWebpackConfig.entry)
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
-    rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
+    rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true, extract: true })
   },
   mode: config.dev.mode,
   // cheap-module-eval-source-map is faster for development
@@ -50,15 +55,9 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
     new webpack.NoEmitOnErrorsPlugin(),
-    // https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: 'index.template.html',
-      inject: true
-    }),
-    new IncludeAssetsPlugin({
-      assets: [`${config.build.assetsSubDirectory}/js/vendor.dll.js`],
-      append: false
+    new MiniCssExtractPlugin({
+      filename: utils.assetsPath('css/[name].css'),
+      allChunks: true
     }),
     // copy custom static assets
     new CopyWebpackPlugin([
@@ -71,28 +70,42 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   ]
 })
 
-module.exports = new Promise((resolve, reject) => {
-  portfinder.basePort = process.env.PORT || config.dev.port
-  portfinder.getPort((err, port) => {
-    if (err) {
-      reject(err)
-    } else {
-      // publish the new Port, necessary for e2e tests
-      process.env.PORT = port
-      // add port to devServer config
-      devWebpackConfig.devServer.port = port
+if (isNode) {
+  module.exports = devWebpackConfig
+} else {
+  module.exports = new Promise((resolve, reject) => {
+    portfinder.basePort = process.env.PORT || config.dev.port
+    portfinder.getPort((err, port) => {
+      if (err) {
+        reject(err)
+      } else {
+        // publish the new Port, necessary for e2e tests
+        process.env.PORT = port
+        // add port to devServer config
+        devWebpackConfig.devServer.port = port
 
-      // Add FriendlyErrorsPlugin
-      devWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
-        compilationSuccessInfo: {
-          messages: [`Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`]
-        },
-        onErrors: config.dev.notifyOnErrors
-        ? utils.createNotifierCallback()
-        : undefined
-      }))
+        devWebpackConfig.plugins = [...devWebpackConfig.plugins, 
+        new HtmlWebpackPlugin({
+          filename: 'index.html',
+          template: 'index.template.html',
+          inject: true
+        }),
+        new IncludeAssetsPlugin({
+          assets: [`${config.build.assetsSubDirectory}/js/vendor.dll.js`],
+          append: false
+        }),
+        // Add FriendlyErrorsPlugin
+        new FriendlyErrorsPlugin({
+          compilationSuccessInfo: {
+            messages: [`Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`]
+          },
+          onErrors: config.dev.notifyOnErrors
+          ? utils.createNotifierCallback()
+          : undefined
+        })]
 
-      resolve(devWebpackConfig)
-    }
+        resolve(devWebpackConfig)
+      }
+    })
   })
-})
+}

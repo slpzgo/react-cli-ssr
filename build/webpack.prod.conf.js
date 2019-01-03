@@ -21,14 +21,15 @@ const webpackConfig = merge(baseWebpackConfig, {
     })
   },
   devtool: config.build.productionSourceMap ? config.build.devtool : false,
-  output: {
-    path: config.build.assetsRoot,
-    filename: utils.assetsPath('js/[name].js'),
-    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
-  },
+  // output: {
+  //   path: config.build.assetsRoot,
+  //   filename: utils.assetsPath('js/[name].js'),
+  //   chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
+  // },
   optimization: {
     sideEffects: false,
     namedChunks: true,
+    namedModules:true,
     splitChunks: {
       chunks     : 'all',
       minSize    : 30000,

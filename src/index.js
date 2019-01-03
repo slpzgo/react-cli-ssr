@@ -6,6 +6,7 @@ import initState from './store'
 import App from './app'
 
 import '@/assets/css/style.scss'
+import '@/assets/css/common.scss'
 
 const store = initState(window._initState_)
 

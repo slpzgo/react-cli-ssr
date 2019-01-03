@@ -12,10 +12,8 @@ module.exports = {
   entry: path.resolve(__dirname, '../src/index.js'),
   output: {
     path: config.build.assetsRoot,
-    filename: '[name].js',
-    publicPath: process.env.NODE_ENV === 'production'
-      ? config.build.assetsPublicPath
-      : config.dev.assetsPublicPath
+    filename: utils.assetsPath('js/[name].js'),
+    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
   resolve: {
     alias: {

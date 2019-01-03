@@ -1,2 +1,3 @@
 require('@babel/register')
-require('./server/server')
+const env = require('./server/env')
+require(env.default.server)
